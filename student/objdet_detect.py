@@ -24,7 +24,7 @@ sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 # model-related
 from tools.objdet_models.resnet.models import fpn_resnet
-from tools.objdet_models.resnet.utils.evaluation_utils import decode, post_processing 
+from tools.objdet_models.resnet.utils.evaluation_utils import decode, post_processing
 from tools.objdet_models.resnet.utils.torch_utils import _sigmoid
 
 from tools.objdet_models.darknet.models.darknet2pytorch import Darknet as darknet
@@ -124,7 +124,7 @@ def load_configs(model_name='fpn_resnet', configs=None):
 
     # init config file, if none has been passed
     if configs==None:
-        configs = edict()    
+        configs = edict()
 
     # birds-eye view (bev) parameters
     configs.lim_x = [0, 50] # detection range in m
@@ -132,7 +132,7 @@ def load_configs(model_name='fpn_resnet', configs=None):
     configs.lim_z = [-1, 3]
     configs.lim_r = [0, 1.0] # reflected lidar intensity
     configs.bev_width = 608  # pixel resolution of bev image
-    configs.bev_height = 608 
+    configs.bev_height = 608
 
     # add model-dependent parameters
     configs = load_configs_model(model_name, configs)
@@ -140,6 +140,8 @@ def load_configs(model_name='fpn_resnet', configs=None):
     # visualization parameters
     configs.output_width = 608 # width of result image (height may vary)
     configs.obj_colors = [[0, 255, 255], [0, 0, 255], [255, 0, 0]] # 'Pedestrian': 0, 'Car': 1, 'Cyclist': 2
+
+    configs.min_iou = 0.5
 
     return configs
 
@@ -226,15 +228,15 @@ def detect_objects(input_bev_maps, model, configs):
             detections = post_processing(detections, configs)
             detections = detections[0][1]  # only first batch, and vehicle class
             #######
-            ####### ID_S3_EX1-5 END #######    
+            ####### ID_S3_EX1-5 END #######
 
-            
 
-    ####### ID_S3_EX2 START #######     
+
+    ####### ID_S3_EX2 START #######
     #######
     # Extract 3d bounding boxes from model response
     print("student task ID_S3_EX2")
-    objects = [] 
+    objects = []
 
     ## step 1 : check whether there are any detections
     if len(detections) > 0:
@@ -260,6 +262,5 @@ def detect_objects(input_bev_maps, model, configs):
 
     #######
     ####### ID_S3_EX2 START #######
-    
-    return objects    
 
+    return objects
