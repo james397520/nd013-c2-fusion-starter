@@ -255,10 +255,12 @@ def detect_objects(input_bev_maps, model, configs):
             z = _z + configs.lim_z[0]
             w = _w / configs.bev_width * bb_y
             l = _l / configs.bev_height * bb_x
-
-            ## step 4 : append the current object to the 'objects' array
-            # [1, x, y, z, h, w, l, yaw], where 1 denotes the class id for the object type vehicle.
-            objects.append([1, x, y, z, _h, w, l, _yaw])
+            if ((x >= configs.lim_x[0]) and (x <= configs.lim_x[1])
+                and (y >= configs.lim_y[0]) and (y <= configs.lim_y[1])
+                and (z >= configs.lim_z[0]) and (z <= configs.lim_z[1])):
+                ## step 4 : append the current object to the 'objects' array
+                # [1, x, y, z, h, w, l, yaw], where 1 denotes the class id for the object type vehicle.
+                objects.append([1, x, y, z, _h, w, l, _yaw])
 
     #######
     ####### ID_S3_EX2 START #######
