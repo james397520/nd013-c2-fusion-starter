@@ -89,7 +89,7 @@ Only Lidar measurement:
 
 Camera-Lidar Fusion:
 
-![](img/final/rsme4.png)
+![](img/final/rmse4.png)
 
 ## Challenges in real-life scenarios
 
